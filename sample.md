@@ -7,7 +7,7 @@ Hi! First, thanks for the interesting research and library :) I'm trying to run 
 
 May I ask the recommended library installation process and environment settings to successfully run the example notebooks without errors? My current environment is:
 
-conda, CUDA Version: 11.4
+conda, CUDA Version: 11.4  
 python 3.7.12, nvtabular 0.7.1, transformers4rec 0.1.2, pytorch 1.7.1, cudatoolkit 11.0.221 
 
 I got to this environment by installing in this order:

@@ -5,7 +5,22 @@
 <!-- Description of your question -->
 Hi! First, thanks for the interesting research and library :) I'm trying to run the example notebook ('example/getting-started-session-based/02-session-based-XLNet-with-PyT.ipynb'), but am running into several errors seemingly related with PyTorch.
 
-Some example errors:
+May I ask the recommended library installation process and environment settings to successfully run the example notebooks without errors? My current environment is:
+
+conda, CUDA Version: 11.4
+python 3.7.12, nvtabular 0.7.1, transformers4rec 0.1.2, pytorch 1.7.1, cudatoolkit 11.0.221 
+
+I got to this environment by installing in this order:
+1. NVTabular
+conda install -c nvidia -c rapidsai -c numba -c conda-forge nvtabular python=3.7 cudatoolkit=11.0
+2. TRM4Rec
+conda install -c nvidia -c rapidsai -c numba -c conda-forge transformers4rec cudatoolkit=11.0
+3. PyTorch
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch
+
+Thanks for the help!
+
+Example error that I am having currently:
 I first got this cuda related error by running the script than instantiates training.
 ```python
 start_time_window_index = 1
@@ -180,38 +195,6 @@ RuntimeError: CUDA error: invalid device ordinal
 
 Even when I fix the above error manually by fixing the code, I get another error like below with the same script.
 ```python
-start_time_window_index = 1
-final_time_window_index = 7
-#Iterating over days of one week
-for time_index in range(start_time_window_index, final_time_window_index):
-    # Set data 
-    time_index_train = time_index
-    time_index_eval = time_index + 1
-    train_paths = glob.glob(os.path.join(OUTPUT_DIR, f"{time_index_train}/train.parquet"))
-    eval_paths = glob.glob(os.path.join(OUTPUT_DIR, f"{time_index_eval}/valid.parquet"))
-    print(train_paths)
-    
-    # Train on day related to time_index 
-    print('*'*20)
-    print("Launch training for day %s are:" %time_index)
-    print('*'*20 + '\n')
-    trainer.train_dataset_or_path = train_paths
-    trainer.reset_lr_scheduler()
-    trainer.train()
-    trainer.state.global_step +=1
-    print('finished')
-    
-    # Evaluate on the following day
-    trainer.eval_dataset_or_path = eval_paths
-    train_metrics = trainer.evaluate(metric_key_prefix='eval')
-    print('*'*20)
-    print("Eval results for day %s are:\t" %time_index_eval)
-    print('\n' + '*'*20 + '\n')
-    for key in sorted(train_metrics.keys()):
-        print(" %s = %s" % (key, str(train_metrics[key]))) 
-    wipe_memory()
-```
-```
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
 /tmp/ipykernel_9524/2595200145.py in <module>
